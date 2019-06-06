@@ -34,7 +34,7 @@ class AccountList extends Component {
       .then((response) => {
         // sets all nodes in redux
         props.updateNewNodes(response.data.nodes);
-        this.setState({ nodes: response.data.nodes, loading: false });
+        this.setState({ nodes: (response.data.nodes).slice(0, 3), loading: false });
       });
   }
 
