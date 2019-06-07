@@ -22,7 +22,6 @@ history.listen((location) => {
     }
     // In all other cases, scroll to top
     window.scrollTo(0, 0);
-    console.log('location', location);
   });
 });
 

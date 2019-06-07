@@ -5,6 +5,7 @@ import Linked from '../svg/Linked';
 import fetchNodes from '../services/nodeService';
 import updateNewNodes from '../actions/bankLoginActions';
 import utils from '../services/utils';
+import Circle from '../svg/Circle';
 
 
 class AccountList extends Component {
@@ -15,9 +16,7 @@ class AccountList extends Component {
       loading: true
     };
     const receiveMessage = (e) => {
-      console.log(e.data);
       if (e.data.message === 'close') {
-        console.log(e.data.message);
         this.getNodes();
       }
     };
@@ -43,7 +42,7 @@ class AccountList extends Component {
     const { nodes, loading } = this.state;
     return (
       <div className="account-list-container">
-        <div className="title">Linked Accounts</div>
+        <div className="title">Linked accounts</div>
         {loading
           ? <div className="loading">Loading accounts...</div>
           : (
@@ -52,10 +51,12 @@ class AccountList extends Component {
                 {nodes.length === 0
                   ? (
                     <div>
-                      <div>
-                        <span className="bank-logo-empty" />
-                        <span style={{ display: 'inline-block' }}>No linked accounts</span>
-                        <span>Click on Link an account </span>
+                      <div className="list-item" style={{ borderBottom: '1px solid rgb(134, 134, 134)', paddingbottom: '18px' }}>
+                        <Circle />
+                        <div className="list-right">
+                          <span className="list-info" id="list-info">No linked accounts</span>
+                          <div className="list-content" id="list-content"><Linked /><span className="list-date">Click on Link an account </span></div>
+                        </div>
                       </div>
                     </div>
                   )
@@ -76,7 +77,7 @@ class AccountList extends Component {
                             <div className="list-left"><img className="list-logo" src={node.info.bank_logo} alt="logo" /></div>
                             <div className="list-right">
                               <span className="list-info">{listText} </span>
-                              <div style={{ width: '50%' }}><Linked /><span className="list-date">Linked {moment(node.timeline[0].date).format('MM/DD/YYYY')}</span></div>
+                              <div className="list-content"><Linked /><span className="list-date">Linked {moment(node.timeline[0].date).format('MM/DD/YYYY')}</span></div>
                             </div>
                           </div>
                         );

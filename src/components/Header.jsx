@@ -12,7 +12,7 @@ class Header extends PureComponent {
     return (
       <div className="Header">
         <div className="left-child">
-          <Logo />
+          <a className="home" href="https://synapsefi.com/"><Logo /></a>
         </div>
         <div className="right-child">
           <a className="link-1" href="https://docs.synapsefi.com/">API Docs</a>
