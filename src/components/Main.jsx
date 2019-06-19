@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
-// import bank from '../assets/bank.gif';
 
 import Header from './Header';
 import AccountList from './AccountList';
 import Logo from '../svg/Logo';
 
-const bank = 'https://synapse-banking-qa.s3-us-west-1.amazonaws.com/assets/bank.gif';
-
+const bank = 'https://synapse-chatbot-demo.s3.amazonaws.com/assets/bank.gif';
 class Main extends Component {
   constructor(props) {
     super(props);

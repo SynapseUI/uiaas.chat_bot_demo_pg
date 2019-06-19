@@ -76,7 +76,7 @@ class AccountList extends Component {
                           <div className="list-item" key={node.bank_name} style={{ borderTop: border, paddingTop: padding }}>
                             <div className="list-left"><img className="list-logo" src={node.info.bank_logo} alt="logo" /></div>
                             <div className="list-right">
-                              <span className="list-info">{listText} </span>
+                              <div className="list-info">{listText} </div>
                               <div className="list-content"><Linked /><span className="list-date">Linked {moment(node.timeline[0].date).format('MM/DD/YYYY')}</span></div>
                             </div>
                           </div>

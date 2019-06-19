@@ -42,7 +42,7 @@
   <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,700,500' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Khula:300,400,600,700" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito+Sans: 300,400,700" rel="stylesheet">
   <script
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD-rl3PM3oNmgOFLSzidN9cZ-rK2f_VVVs&libraries=places"></script>
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -54,7 +54,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
-
+  <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head>
   <script src="https://synapse-bl-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script>
 </head>
 
@@ -67,10 +67,13 @@
       generatePublicKey: config.updatePublicKey,
       generateOauthKey: config.updateOauthKey,
       generateUserId: config.updateUserId,
+      env: 'sandbox'
     });
     }
-    
   </script>
+  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/runtime.js"></script>
+  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/vendors.js"></script>
+  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/main.js"></script>
   <div id="app"></div>
 </body>
 
