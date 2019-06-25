@@ -7,7 +7,16 @@ import updateNewNodes from '../actions/bankLoginActions';
 import utils from '../services/utils';
 import Circle from '../svg/Circle';
 
+let show = true;
+const logo = 'https://synapse-chatbot-demo.s3.amazonaws.com/assets/bank-icon.png';
 
+function addDefaultSrc(ev) {
+  ev.target.src = logo;
+  show = false;
+  ev.target.style.display = 'block';
+  ev.target.style.width = '33.3px';
+  ev.target.style.marginRight = '12px';
+}
 class AccountList extends Component {
   constructor(props) {
     super(props);
@@ -74,7 +83,7 @@ class AccountList extends Component {
 
                         return (
                           <div className="list-item" key={node.bank_name} style={{ borderTop: border, paddingTop: padding }}>
-                            <div className="list-left"><img className="list-logo" src={node.info.bank_logo} alt="logo" /></div>
+                            <div className="list-left"><img className="list-logo" onError={addDefaultSrc} src={node.info.bank_logo} alt="logo" /></div>
                             <div className="list-right">
                               <div className="list-info">{listText} </div>
                               <div className="list-content"><Linked /><span className="list-date">Linked {moment(node.timeline[0].date).format('MM/DD/YYYY')}</span></div>
