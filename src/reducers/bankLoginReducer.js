@@ -1,11 +1,16 @@
 import {
   UPDATE_NEW_NODES,
+  UPDATE_USER_INFO
 } from '../constants/actionConstants';
 
 const initialState = {
   newNodes: {
-    nodeInfo: []
+    nodeLinked: []
   },
+
+  id: null,
+  refreshToken: null,
+  oauth_key: null
 };
 
 export default (state = initialState, action) => {
@@ -14,8 +19,13 @@ export default (state = initialState, action) => {
       return {
         ...state,
         newNodes: {
-          nodeInfo: action.payload.nodeInfo ? action.payload.nodeInfo : state.newNodes.nodeInfo,
+          nodeLinked: action.payload.nodeLinked ? action.payload.nodeLinked : state.newNodes.nodeLinked,
         },
+      };
+    case UPDATE_USER_INFO:
+      return {
+        ...state,
+        [action.payload.field]: action.payload.value
       };
     default:
       return state;
