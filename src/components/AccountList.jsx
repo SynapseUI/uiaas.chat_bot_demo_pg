@@ -21,34 +21,21 @@ class AccountList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      nodes: [],
-      loading: true
+      // nodes: [],
+      loading: true,
+      // count: 0
     };
-    const receiveMessage = (e) => {
-      if (e.data.message === 'close') {
-        this.getNodes();
-      }
-    };
-    window.addEventListener('message', receiveMessage, false);
   }
 
   componentDidMount = () => {
-    this.getNodes();
+    const { nodeLinked } = this.props;
+    this.setState({ loading: false });
   }
-
-  getNodes = () => {
-    const { props } = this;
-    fetchNodes('ACH-US')
-      .then((response) => {
-        // sets all nodes in redux
-        props.updateNewNodes(response.data.nodes);
-        this.setState({ nodes: (response.data.nodes).slice(0, 3), loading: false });
-      });
-  }
-
 
   render() {
-    const { nodes, loading } = this.state;
+    const { loading } = this.state;
+    const { nodeLinked } = this.props;
+    const nodes = (nodeLinked).slice(0, 3);
     return (
       <div className="account-list-container">
         <div className="title">Linked accounts</div>
@@ -105,7 +92,7 @@ class AccountList extends Component {
 
 function mapStateToProps(state) {
   return {
-    nodeLinked: state.bankLoginReducer.nodeLinked,
+    nodeLinked: state.bankLoginReducer.newNodes.nodeLinked,
   };
 }
 
