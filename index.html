@@ -66,7 +66,8 @@
       generatePublicKey: config.updatePublicKey,
       generateOauthKey: config.updateOauthKey,
       generateUserId: config.updateUserId,
-      env: 'sandbox'
+      env: 'sandbox',
+      onError:function(data){}
     });
     $('#link-button-iframe').on('click', function(e) {
     Synapse.open();
