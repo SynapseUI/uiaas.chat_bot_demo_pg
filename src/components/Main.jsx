@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { connect } from 'react-redux';
+import { Button } from 'semantic-ui-react';
 
 import Header from './Header';
 import AccountList from './AccountList';
@@ -15,7 +16,8 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      load: true
+      load: true,
+      isLoading: 'loading'
     };
     const receiveMessage = (e) => {
       console.log(props);
@@ -87,11 +89,6 @@ class Main extends Component {
             props.updateBanner({
               isOpen: true,
               content: 'The server is down, please try again later.'
-              bannerLink: {
-                text: '',
-                function: () => {
-                }
-              }
             });
             break;
           case '429':
@@ -132,7 +129,7 @@ class Main extends Component {
         localStorage.setItem('userId', responseSecond.data.user_id);
         localStorage.setItem('synapseOauth', responseSecond.data.oauth_key);
         props.updateUserInfo('oauth_key', responseSecond.data.oauth_key);
-        this.setState({ load: false });
+        this.setState({ load: false, isLoading: null });
         this.getNodes(responseSecond.data.user_id, responseSecond.data.oauth_key);
         return responseSecond.data.oauth_key;
       })
@@ -219,7 +216,7 @@ class Main extends Component {
   }
 
   render() {
-    const { load } = this.state;
+    const { load, isLoading } = this.state;
     const { banner } = this.props;
     return (
       <Fragment>
@@ -229,7 +226,7 @@ class Main extends Component {
           <div className="content-container">
             <div className="main-left-child">
               <div className="welcome">Welcome to the Bank Logins demo.</div>
-              <button id="link-button-iframe" className="iframe-btn" type="button">Link an account </button>
+              <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link an account </Button>
               <AccountList load={load} />
             </div>
             <div className="main-right-child" style={{ float: 'right' }}>
