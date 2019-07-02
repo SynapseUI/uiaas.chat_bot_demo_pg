@@ -1,6 +1,7 @@
 import {
   UPDATE_NEW_NODES,
-  UPDATE_USER_INFO
+  UPDATE_USER_INFO,
+  UPDATE_BANNER
 } from '../constants/actionConstants';
 
 export function updateNewNodes(nodeLinked) {
@@ -20,5 +21,12 @@ export function updateUserInfo(field, value) {
       field,
       value
     }
+  });
+}
+
+export function updateBanner(value) {
+  return ({
+    type: UPDATE_BANNER,
+    payload: value
   });
 }
