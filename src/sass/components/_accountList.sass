@@ -61,15 +61,15 @@
   font-stretch: normal
   line-height: 1.5
   letter-spacing: normal
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
   @media only screen and (max-width: 640px)
     font-size: 16px
     text-overflow: ellipsis
   @media only screen and (min-width: 1680px)
     font-size: 24px
   @media only screen and (max-width: 384px)
-    white-space: nowrap
-    overflow: hidden
-    text-overflow: ellipsis
     max-width: 250px
   @media only screen and (max-width: 338px)
     max-width: 220px
@@ -127,6 +127,7 @@
   @media only screen and (min-width: 640px)
     width: 50%
     text-align: right
+    margin-left: 10px
 
 .circle
   margin-bottom: 6px
