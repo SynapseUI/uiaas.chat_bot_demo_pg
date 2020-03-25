@@ -61,28 +61,51 @@ export function createTestUser() {
 }
 
 
-export function generateOauthKey(id, refreshToken) {
+export function generateOauthKey(id, refreshToken, newpublicKey) {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-SP-GATEWAY': 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F',
+      // 'X-SP-GATEWAY': 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F',
+      'X-SP-GATEWAY': `${newpublicKey}`,
       'X-SP-USER': '|badc522c6a325711f51841fc6f1e8bd0',
       'X-SP-USER-IP': `${ipAddress}`
     }
   };
   const payload = {
-    refresh_token: `${refreshToken}`
+    refresh_token: `${refreshToken}`,
+    scope: [
+      'USER|PATCH',
+      'USER|GET',
+      'CONVERSATION|GET',
+      'CONVERSATION|POST',
+      'CONVERSATION|PATCH',
+      'CONVERSATIONS|GET',
+      'CONVERSATIONS|POST',
+      'MESSAGES|POST',
+      'MESSAGES|GET'
+    ]
   };
-  return axios.post(`api/v3.1/oauth/${id}`, payload, config);
+  return axios.post(`https://uat-uiaas-v2.synapsefi.com/api/v3.1/oauth/${id}`, payload, config);
 }
 
 
-export function generatePublicKey(id, refreshToken) {
+export function generatePublicKey() {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-SP-GATEWAY': 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F'
+      'X-SP-GATEWAY': 'client_id_sqkFx4C8Hz0Snaib3eT6oPDUu0K7ytXjAd2pNJWG|client_secret_irJqTlDU8NVnEtjMbxmO6uRzYp1f0KCIF70wdS52'
     }
   };
-  return axios.post('api/v3.1/client/controls', config);
+  return axios.get('api/v3.1/client?issue_public_key=YES&scope=OAUTH|POST,USERS|POST,USERS|GET,USER|GET,USER|PATCH,SUBSCRIPTIONS|GET,SUBSCRIPTIONS|POST,SUBSCRIPTION|GET,SUBSCRIPTION|PATCH,CLIENT|REPORTS,CLIENT|CONTROLS', config);
+}
+
+export function getUserInfo(id, publicKeyNew, fp) {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+      'X-SP-GATEWAY': publicKeyNew,
+      'X-SP-USER': `|${fp}`
+    }
+  };
+  return axios.get(`api/v3.1/users/${id}`, config);
 }

@@ -17,6 +17,12 @@ module.exports = merge(common, {
       'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization'
     },
     proxy: {
+      '/apiTest': {
+        target: 'https://uat-uiaas-v2.synapsefi.com',
+        secure: false,
+        changeOrigin: true,
+        pathRewrite: { '^/apiTest': '' }
+      },
       '/api': {
         target: 'https://uat-uiaas.synapsefi.com',
         secure: false,

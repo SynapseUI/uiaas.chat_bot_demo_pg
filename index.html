@@ -54,29 +54,60 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
-  <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head>
-  <script src="https://synapse-bl-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script>
+  <!-- <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head> -->
+  <script src="https://synapse-banking-qa.s3-us-west-1.amazonaws.com/iframe.js"></script>
 </head>
 
 <body class="light-mode">
-  <script>
-    function SynapseMain(config){
+
+  <script>    
+    // var updatePublicKey = function () {
+    //   return 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
+    // }
+    // var updateOauthKey = function () {
+    //   return 'oauth_zoVHICyq7Xl8nBYmaxdMUTibsApJ50Rc0QGgWkN4';
+    // }
+    // var updateUserId = function () {
+    //   return '5e692c033c4e28008cee2f07';
+    // }
+
+    // Synapse.create({
+    //   // defaultPath: 'BANK_LOGINS',
+    //   // userId: '5b5f95dcf122e319740dbc76',
+    //   // chatBot: true, // set to true if you want to enable chatbot
+    //   // buttonId: 'link-button-iframe', // include button's id and don't include chatBot in Synapse.create argument to open product via button
+    //   // defaultPath: 'BANK_LOGINS_TESTING',
+    //   defaultPath: 'SERVICING',
+    //   generateUserId: updateUserId,
+    //   generatePublicKey: updatePublicKey,
+    //   generateOauthKey: updateOauthKey,
+    //   env: 'UAT',
+    //   onError:function(data){},
+    //   onExit: function(mess) {console.log("onExit". mess)}
+    // });
+    // $('#link-button-iframe').on('click', function(e) {
+    //   console.log('sd')
+    //   Synapse.open();
+    // });
+    function SynapseMain(config) {
       Synapse.create({
-      defaultPath: 'BANK_LOGINS',
+      defaultPath: 'SERVICING',
       generatePublicKey: config.updatePublicKey,
       generateOauthKey: config.updateOauthKey,
       generateUserId: config.updateUserId,
-      env: 'sandbox',
-      onError:function(data){}
-    });
-    $('#link-button-iframe').on('click', function(e) {
-    Synapse.open();
-  });
+      env: 'UAT',
+      onError:function(data){},
+      onExit: function(mess) {console.log("onExit". mess)}
+      });
+      $('#link-button-iframe').on('click', function (e) {
+        console.log('sd')
+        Synapse.open();
+      });
     }
   </script>
-  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/runtime.js"></script>
+  <!-- <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/runtime.js"></script>
   <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/vendors.js"></script>
-  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/main.js"></script>
+  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/main.js"></script> -->
   <div id="app"></div>
 </body>
 
