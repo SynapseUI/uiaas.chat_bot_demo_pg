@@ -55,7 +55,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
   <!-- <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head> -->
-  <script src="https://synapse-banking-qa.s3-us-west-1.amazonaws.com/iframe.js"></script>
+  <script src="https://synapse-chatbot-servicing-demo.s3-us-west-1.amazonaws.com/iframe.js"></script>
 </head>
 
 <body class="light-mode">
@@ -93,15 +93,16 @@
       Synapse.create({
       defaultPath: 'SERVICING',
       generatePublicKey: config.updatePublicKey,
-      generateOauthKey: config.updateOauthKey,
+      generateFp: config.updateFingerprint,
       generateUserId: config.updateUserId,
       env: 'UAT',
+      // openWay: 'AUTO',
       onError:function(data){},
       onExit: function(mess) {console.log("onExit". mess)}
       });
       $('#link-button-iframe').on('click', function (e) {
-        console.log('sd')
-        Synapse.open();
+        // console.log('sd')
+      Synapse.open();
       });
     }
   </script>

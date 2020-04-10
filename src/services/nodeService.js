@@ -89,14 +89,14 @@ export function generateOauthKey(id, refreshToken, newpublicKey) {
 }
 
 
-export function generatePublicKey() {
+export function generatePublicKey(id) {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-SP-GATEWAY': 'client_id_sqkFx4C8Hz0Snaib3eT6oPDUu0K7ytXjAd2pNJWG|client_secret_irJqTlDU8NVnEtjMbxmO6uRzYp1f0KCIF70wdS52'
+      'X-SP-GATEWAY': 'client_id_sqkFx4C8Hz0Snaib3eT6oPDUu0K7ytXjAd2pNJWG|client_secret_irJqTlDU8NVnEtjMbxmO6uRzYp1f0KCIF70wdS52',
     }
   };
-  return axios.get('api/v3.1/client?issue_public_key=YES&scope=OAUTH|POST,USERS|POST,USERS|GET,USER|GET,USER|PATCH,SUBSCRIPTIONS|GET,SUBSCRIPTIONS|POST,SUBSCRIPTION|GET,SUBSCRIPTION|PATCH,CLIENT|REPORTS,CLIENT|CONTROLS', config);
+  return axios.get(`api/v3.1/client?issue_public_key=YES&scope=OAUTH|POST,USERS|POST,USERS|GET,USER|GET,USER|PATCH,SUBSCRIPTIONS|GET,SUBSCRIPTIONS|POST,SUBSCRIPTION|GET,SUBSCRIPTION|PATCH,CLIENT|REPORTS,CLIENT|CONTROLS&user_id=${id}`, config);
 }
 
 export function getUserInfo(id, publicKeyNew, fp) {
@@ -107,5 +107,5 @@ export function getUserInfo(id, publicKeyNew, fp) {
       'X-SP-USER': `|${fp}`
     }
   };
-  return axios.get(`api/v3.1/users/${id}`, config);
+  return axios.get(`${URL_USER}/${id}?full_dehydrate=no`, config);
 }

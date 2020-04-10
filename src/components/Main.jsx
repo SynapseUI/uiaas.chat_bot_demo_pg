@@ -65,7 +65,7 @@ class Main extends Component {
 
 
   pushToIframe = (refreshTocken) => {
-    const { id, refreshToken } = this.state;
+    const { id, refreshToken, fp } = this.state;
     // var updatePublicKey = function () {
     //   return 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
     // }
@@ -75,29 +75,24 @@ class Main extends Component {
     // var updateUserId = function () {
     //   return '5e692c033c4e28008cee2f07';
     // }
-    const updatePublicKey = () => 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
+    // const updatePublicKey = () => 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
     // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
     const updateUserId = () => '5e3c756e3c4e28008d53f68e';
     // const updateUserId = () => '5cdca3d814ddee0064a05b17';
-    // const updatePublicKey = async () => {
-    //   const publicKey = await this.getPublicKey();
-    //   // this.setState({ publicKey });
-    //   return publicKey;
-    // };
-    // const updateUserId = () => id;
-    const updateOauthKey = async () => {
-      const oauth = await this.generateOuth(refreshTocken);
-      return oauth;
+    const updatePublicKey = async () => {
+      const publicKey = await this.getPublicKey();
+      // this.setState({ publicKey });
+      return publicKey;
     };
-    window.SynapseMain({ updatePublicKey, updateOauthKey, updateUserId });
-  }
+    // const updateUserId = () => id;
+    // const updateOauthKey = async () => {
+    //   const oauth = await this.generateOuth(refreshTocken);
+    //   return oauth;
+    // };
+    const updateFingerprint = () => fp;
 
-  getPublicKey = () => generatePublicKey()
-    .then((response) => {
-      const key = response.data.public_key_obj.public_key;
-      this.setState({ publicKey: key });
-      return key;
-    })
+    window.SynapseMain({ updatePublicKey, updateFingerprint, updateUserId });
+  }
 
   updateUserInfo = (userId) => {
     const { publicKey, fp, id } = this.state;
@@ -161,6 +156,17 @@ class Main extends Component {
   //   // props.updateUserInfo('refreshToken', 'refresh_hWAXl0wsvJmBbe0QVN3E6yLKG7uD9UOIM4cZHxog');
   // }
 
+  getPublicKey = () => {
+    const { props } = this;
+    const { id, publicKey } = this.state;
+    return generatePublicKey(id)
+      .then((response) => {
+        const key = response.data.public_key_obj.public_key;
+        this.setState({ publicKey: key });
+        return key;
+      });
+  }
+
   generateOuth = (refreshToken) => {
     const { props } = this;
     const { id, publicKey } = this.state;
@@ -204,7 +210,12 @@ class Main extends Component {
                   </ul>
                 </div>
               </div>
-              <div className="main-right-child" style={{ float: 'right' }}>
+              <div
+                className="main-right-child"
+                style={{ float: 'right' }}
+                onClick={() => window.open('https://uat-silent-wildflower-5960.synapsefi.com/v2/chatbot#/', '_newtab')}
+                onKeyPress={() => window.open('https://uat-silent-wildflower-5960.synapsefi.com/v2/chatbot#/', '_newtab')}
+              >
                 <div><img className="agent-gif" src={agentDemoGif} alt="gif" /></div>
                 <div>
                   <h1 className="userAgentHeader">Agent</h1>
