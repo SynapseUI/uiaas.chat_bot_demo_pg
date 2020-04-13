@@ -64,10 +64,11 @@ class Main extends Component {
     // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
     // const updateUserId = () => '5cdca3d814ddee0064a05b17';
     const updateUserId = () => id;
-    const updateOauthKey = async () => {
-      const oauth = await this.generateOuth();
-      return oauth;
-    };
+    // const updateOauthKey = async () => {
+    //   const oauth = await this.generateOuth();
+    //   return oauth;
+    // };
+    const updateOauthKey = this.generateOuth();
     window.SynapseMain({ updatePublicKey, updateOauthKey, updateUserId });
   }
 
