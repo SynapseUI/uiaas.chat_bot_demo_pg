@@ -20,8 +20,7 @@ class Main extends Component {
       isLoading: 'loading'
     };
     const receiveMessage = (e) => {
-      console.log(props);
-      if (e.data.message === 'close') {
+      if (e.data.synapse_chatbot_message.type === 'exit') {
         this.newFunction();
       }
     };
@@ -63,13 +62,14 @@ class Main extends Component {
     const updatePublicKey = () => 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
     // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
     // const updateUserId = () => '5cdca3d814ddee0064a05b17';
+    const getFp = () => 'badc522c6a325711f51841fc6f1e8bd0';
+    this.generateOuth();
     const updateUserId = () => id;
     // const updateOauthKey = async () => {
     //   const oauth = await this.generateOuth();
     //   return oauth;
     // };
-    const updateOauthKey = this.generateOuth();
-    window.SynapseMain({ updatePublicKey, updateOauthKey, updateUserId });
+    window.SynapseMain({ updatePublicKey, getFp, updateUserId });
   }
 
   createNewUser = (type) => {
