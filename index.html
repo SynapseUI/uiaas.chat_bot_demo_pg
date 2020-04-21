@@ -55,8 +55,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
   <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head>
-  <script src="https://synapse-bl-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script>
-  <!-- <script src="https://uiaas-best-banking-dashboard.s3.us-east-2.amazonaws.com/js/iframe.js"></script> -->
+  <!-- <script src="https://synapse-bl-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script> -->
+  <script src="https://synapse-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script>
 </head>
 
 <body class="light-mode">
@@ -65,10 +65,9 @@
       Synapse.create({
       defaultPath: 'BANK_LOGINS',
       generatePublicKey: config.updatePublicKey,
-      generateOauthKey: config.updateOauthKey,
+      generateFp: config.getFp,
       generateUserId: config.updateUserId,
-      env: 'sandbox',
-      onError:function(data){}
+      env: 'sandbox'
     });
     $('#link-button-iframe').on('click', function(e) {
     Synapse.open();
