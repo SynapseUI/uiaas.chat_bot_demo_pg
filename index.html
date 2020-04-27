@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style id="static-style" title='dynamic'></style>
-  <title>SynapseFI BL Demo</title>
+  <title>SynapseFI Servicing Demo</title>
   <link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico' />
   <link type='image/x-icon' rel="apple-touch-icon" sizes="57x57"
     href="https://cdn.synapsepay.com/services/v2_dashboard/favicon.ico/apple-icon-57x57.png">
@@ -55,40 +55,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
   <!-- <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head> -->
-  <script src="https://synapse-chatbot-servicing-demo.s3-us-west-1.amazonaws.com/iframe.js"></script>
+  <script src="https://synapse-cb-servicing.s3-us-west-1.amazonaws.com/iframe.js"></script>
 </head>
 
 <body class="light-mode">
 
   <script>    
-    // var updatePublicKey = function () {
-    //   return 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
-    // }
-    // var updateOauthKey = function () {
-    //   return 'oauth_zoVHICyq7Xl8nBYmaxdMUTibsApJ50Rc0QGgWkN4';
-    // }
-    // var updateUserId = function () {
-    //   return '5e692c033c4e28008cee2f07';
-    // }
-
-    // Synapse.create({
-    //   // defaultPath: 'BANK_LOGINS',
-    //   // userId: '5b5f95dcf122e319740dbc76',
-    //   // chatBot: true, // set to true if you want to enable chatbot
-    //   // buttonId: 'link-button-iframe', // include button's id and don't include chatBot in Synapse.create argument to open product via button
-    //   // defaultPath: 'BANK_LOGINS_TESTING',
-    //   defaultPath: 'SERVICING',
-    //   generateUserId: updateUserId,
-    //   generatePublicKey: updatePublicKey,
-    //   generateOauthKey: updateOauthKey,
-    //   env: 'UAT',
-    //   onError:function(data){},
-    //   onExit: function(mess) {console.log("onExit". mess)}
-    // });
-    // $('#link-button-iframe').on('click', function(e) {
-    //   console.log('sd')
-    //   Synapse.open();
-    // });
     function SynapseMain(config) {
       Synapse.create({
       defaultPath: 'SERVICING',
@@ -101,7 +73,6 @@
       onExit: function(mess) {console.log("onExit". mess)}
       });
       $('#link-button-iframe').on('click', function (e) {
-        // console.log('sd')
       Synapse.open();
       });
     }

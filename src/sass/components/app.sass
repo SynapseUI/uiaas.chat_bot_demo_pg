@@ -97,7 +97,7 @@ button
     // margin: 16.4% 0 5.7%
     @media only screen and (max-width: 600px) 
       max-width: 328px
-      margin: 32px 0 30px 0
+      margin: 32px auto 30px auto
     @media only screen and (max-width: 1080px) 
       font-size: 32px
     @media only screen and (min-width: 1081px) 
@@ -142,10 +142,8 @@ button
 .gifContainer
   width: 700px
   margin: 0 auto
-  // @media only screen and (max-width: 900px) 
-  //   max-width: 100%
-  // @media only screen and (min-width: 1080px) 
-  //   max-width: 700px
+  @media only screen and (max-width: 600px) 
+    max-width: 100%
 
 
 .user-gif
@@ -173,6 +171,8 @@ button
   display: inline-block 
   width: 10px
   margin-left: -1em
+  @media only screen and (max-width: 600px) 
+    width: 18px
 
 .action
   font-family: Nunito Sans
@@ -197,6 +197,9 @@ button
   cursor:url(https://synapse-banking-qa.s3-us-west-1.amazonaws.com/Click_for_demo_1x.png) 10 3, auto
   &:hover
     border: 1px solid #333333
+  @media only screen and (max-width: 600px) 
+    display: block
+    margin: 0 auto
   @media only screen and (min-width: 900px) 
     max-width: 503px
   @media only screen and (min-width: 1080px) 
@@ -221,6 +224,8 @@ button
 
   &:hover
     border: 1px solid #333333
+  @media only screen and (max-width: 600px) 
+      display: none
 
 //change the banner default style
 
