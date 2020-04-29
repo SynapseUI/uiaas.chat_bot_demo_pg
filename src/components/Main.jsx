@@ -59,7 +59,7 @@ class Main extends Component {
 
   pushToIframe = () => {
     const { id, refreshToken } = this.state;
-    const updatePublicKey = () => 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
+    const updatePublicKey = () => 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4';
     // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
     // const updateUserId = () => '5cdca3d814ddee0064a05b17';
     const getFp = () => 'badc522c6a325711f51841fc6f1e8bd0';
