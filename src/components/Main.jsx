@@ -11,7 +11,7 @@ import { updateNewNodes, updateUserInfo, updateBanner } from '../actions/bankLog
 import { createTestUser, generateOauthKey, generatePublicKey, getUserInfo } from '../services/nodeService';
 import ToggleBanner from './Banner';
 
-const bank = 'https://synapse-proposal-builder.s3-us-west-1.amazonaws.com/img/EDD+Animation.gif';
+const bank = 'https://synapse-chatbot-edd-demo.s3-us-west-1.amazonaws.com/assets/EDD_new.gif';
 
 class Main extends Component {
   constructor(props) {
@@ -161,15 +161,13 @@ class Main extends Component {
         <div className="main-container">
           <Header />
           <div className="content-container">
-            <div className="welcome">Welcome to the Enhanced Due Dilgence demo.</div>
-            <div style={{ display: 'flex' }}>
-              <div className="main-left-child">
-                <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Upload Documents</Button>
-                <AccountList load={load} />
-              </div>
-              <div className="main-right-child" style={{ float: 'right' }}>
-                <div><img className="bank-gif" src={bank} alt="gif" /></div>
-              </div>
+            <div className="main-left-child">
+              <div className="welcome">Welcome to the EDD Chatbot demo.</div>
+              <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Upload Documents</Button>
+              <AccountList load={load} />
+            </div>
+            <div className="main-right-child" style={{ float: 'right' }}>
+              <div><img className="bank-gif" src={bank} alt="gif" /></div>
             </div>
           </div>
         </div>

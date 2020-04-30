@@ -10,23 +10,23 @@ class AccountList extends Component {
 
   render() {
     const ele = () => (
-      <div className="feature-ele">
-        <ul>
+      <div className="list" style={{ borderLeft: '6px solid rgb(0, 0, 0)' }}>
+        <div>
           {
-            Object.values(features).map(feature => (
-              <li className="feature-list">
+            Object.values(features).map((feature, idx) => (
+              <div className="list-info" style={idx === 0 ? { paddingBottom: '13px' } : { borderTop: '1px solid #B3B3B3', paddingTop: '14px' }}>
                 { feature }
-              </li>
+              </div>
             ))
           }
-        </ul>
+        </div>
       </div>
 
     );
     return (
       <div className="account-list-container">
         <div className="title">Features</div>
-        {ele()}
+        <div> {ele()} </div>
       </div>
     );
   }
