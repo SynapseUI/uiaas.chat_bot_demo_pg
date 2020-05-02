@@ -43,11 +43,11 @@ class AccountList extends Component {
           ? <div className="loading">Loading accounts...</div>
           : (
             <div>
-              <div className="list" style={{ borderLeft: 'solid 6px #000000' }}>
+              <div className="list" style={{ borderLeft: 'solid 6px #333333' }}>
                 {nodes.length === 0
                   ? (
                     <div>
-                      <div className="list-item" style={{ borderBottom: '1px solid rgb(134, 134, 134)', paddingbottom: '18px' }}>
+                      <div className="list-item" style={{ borderBottom: '1px solid #868686', paddingbottom: '18px' }}>
                         <Circle />
                         <div className="list-right">
                           <span className="list-info" id="list-info">No linked accounts</span>

@@ -11,7 +11,8 @@ import { updateNewNodes, updateUserInfo, updateBanner } from '../actions/bankLog
 import { createTestUser, generateOauthKey, generatePublicKey, fetchNodes } from '../services/nodeService';
 import ToggleBanner from './Banner';
 
-const bank = 'https://synapse-chatbot-demo.s3.amazonaws.com/assets/bank.gif';
+// TODO: store this in correct bucket
+const bank = 'https://synapse-proposal-builder.s3-us-west-1.amazonaws.com/img/Business_BL.gif';
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -226,7 +227,10 @@ class Main extends Component {
           <Header />
           <div className="content-container">
             <div className="main-left-child">
-              <div className="welcome">Welcome to the Bank Logins demo.</div>
+              <div className="welcome">
+                Welcome to the Bank Logins demo.
+                <span className="label"> Business Edition </span>
+              </div>
               <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link an account </Button>
               <AccountList load={load} />
             </div>
