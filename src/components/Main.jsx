@@ -12,7 +12,7 @@ import { createTestUser, generateOauthKey, generatePublicKey, fetchNodes } from 
 import ToggleBanner from './Banner';
 
 // TODO: store this in correct bucket
-const bank = 'https://synapse-proposal-builder.s3-us-west-1.amazonaws.com/img/Business_BL.gif';
+const bank = 'https://synapse-bl-business-demo.s3.amazonaws.com/assets/Business_BL.gif';
 class Main extends Component {
   constructor(props) {
     super(props);
