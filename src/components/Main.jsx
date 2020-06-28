@@ -8,21 +8,25 @@ import Header from './Header';
 import AccountList from './AccountList';
 import Logo from '../svg/Logo';
 import { updateNewNodes, updateUserInfo, updateBanner } from '../actions/bankLoginActions';
-import { createTestUser, generateOauthKey, generatePublicKey, fetchNodes } from '../services/nodeService';
+import { createTestUser, generateOauthKey, generatePublicKey, getUserInfo } from '../services/nodeService';
 import ToggleBanner from './Banner';
 
-const bank = 'https://synapse-chatbot-demo.s3.amazonaws.com/assets/bank.gif';
+const bank = 'https://synapse-chatbot-edd-demo.s3-us-west-1.amazonaws.com/assets/EDD_new.gif';
+
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       load: true,
-      isLoading: 'loading'
+      isLoading: 'loading',
+      id: '5e9e126a79e883007b21eec6',
+      fp: '',
+      publicKey: 'public_key_aOQFodJgKI94wDk5eUhbNP0nfVZSWEtAx3ylC7XT'
     };
     const receiveMessage = (e) => {
-      if (e.data.synapse_chatbot_message.type === 'exit') {
-        this.newFunction();
-      }
+      // if (e.data.synapse_chatbot_message.type === 'exit') {
+      //   this.newFunction();
+      // }
     };
     window.addEventListener('message', receiveMessage, false);
   }
@@ -30,10 +34,14 @@ class Main extends Component {
 
   componentDidMount = () => {
     localStorage.clear();
-    this.createNewUser();
+    // this.createNewUser();
     this.internetCheck();
-    // this.pushToIframe();
+    this.pushToIframe();
     // // this.getNodes();
+  }
+
+  componentWillUnmount = () => {
+    console.log('ehtis');
   }
 
   internetCheck = () => {
@@ -58,80 +66,55 @@ class Main extends Component {
 
 
   pushToIframe = () => {
-    const { id, refreshToken } = this.state;
-    const updatePublicKey = () => 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
+    const { fp } = this.state;
+    // const updatePublicKey = () => 'public_key_aOQFodJgKI94wDk5eUhbNP0nfVZSWEtAx3ylC7XT';
     // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
     // const updateUserId = () => '5cdca3d814ddee0064a05b17';
-    const getFp = () => 'badc522c6a325711f51841fc6f1e8bd0';
-    this.generateOuth();
-    const updateUserId = () => id;
-    // const updateOauthKey = async () => {
-    //   const oauth = await this.generateOuth();
-    //   return oauth;
-    // };
-    window.SynapseMain({ updatePublicKey, getFp, updateUserId });
+    const updateUserId = () => '5ea0e14574b817007f8765b1';
+    const updatePublicKey = async () => {
+      const publicKey = await this.getPublicKey();
+      return publicKey;
+    };
+    const updateFingerprint = () => fp;
+    window.SynapseMain({ updatePublicKey, updateFingerprint, updateUserId });
   }
 
-  createNewUser = (type) => {
-    const { props } = this;
-    createTestUser()
+  updateUserInfo = (userId) => {
+    const { publicKey, fp, id } = this.state;
+    return getUserInfo(id, publicKey, fp)
       .then((response) => {
-        // this.generateOauthKey();
-        if (type === 'id') {
-          return response.data._id;
-        }
-        props.updateUserInfo('id', response.data._id);
-        props.updateUserInfo('refreshToken', response.data.refresh_token);
-        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => this.pushToIframe());
-      })
-      .catch((err) => {
-        switch (err.response.data.http_code) {
-          case '500':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is down, please try again later.'
-            });
-            break;
-          case '429':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          case '503':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          case '504':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          default:
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-        }
+        // console.log(response, "look here", response.data.refresh_token)
+        this.setState({ id: response.data._id }, () => { this.pushToIframe(response.data.refresh_token); });
+        // const key = response.data.public_key_obj.public_key;
+        // this.setState({ publicKey: key });
+        // return key;
       });
-    // this.setState({ id: '5d116600f12ce3006db1fc26', refreshToken: 'refresh_hWAXl0wsvJmBbe0QVN3E6yLKG7uD9UOIM4cZHxog' }, () => this.pushToIframe());
-    // props.updateUserInfo('id', '5d116600f12ce3006db1fc26');
-    // props.updateUserInfo('refreshToken', 'refresh_hWAXl0wsvJmBbe0QVN3E6yLKG7uD9UOIM4cZHxog');
   }
 
-  generateOuth = () => {
+  getPublicKey = () => {
     const { props } = this;
-    const { id, refreshToken } = this.state;
-    return generateOauthKey(id, refreshToken)
+    const { id, publicKey } = this.state;
+    return generatePublicKey(id)
+      .then((res) => {
+        const key = res.data.public_key_obj.public_key;
+        this.setState({ publicKey: key });
+        setTimeout(() => {
+          this.setState({ load: false, isLoading: null });
+        }, 2000);
+        return key;
+      });
+  }
+
+
+  generateOuth = (refreshToken) => {
+    const { props } = this;
+    const { id, publicKey } = this.state;
+    return generateOauthKey(id, refreshToken, publicKey)
       .then((responseSecond) => {
         localStorage.setItem('userId', responseSecond.data.user_id);
         localStorage.setItem('synapseOauth', responseSecond.data.oauth_key);
         props.updateUserInfo('oauth_key', responseSecond.data.oauth_key);
         this.setState({ load: false, isLoading: null });
-        this.getNodes(responseSecond.data.user_id, responseSecond.data.oauth_key);
         return responseSecond.data.oauth_key;
       })
       .catch((err) => {
@@ -169,53 +152,6 @@ class Main extends Component {
       });
   }
 
-  newFunction = () => {
-    const { props } = this;
-    this.getNodes(props.id, props.oauth_key);
-  }
-
-  getNodes = (id, oauth) => {
-    const { props } = this;
-    fetchNodes('ACH-US', id, oauth)
-      .then((response) => {
-        // sets all nodes in redux
-        props.updateNewNodes(response.data.nodes);
-      })
-      .catch((err) => {
-        switch (err.response.data.http_code) {
-          case '500':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is down, please try again later.',
-            });
-            break;
-          case '429':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-            break;
-          case '503':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-            break;
-          case '504':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-            break;
-          default:
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-        }
-      });
-  }
-
   render() {
     const { load, isLoading } = this.state;
     const { banner } = this.props;
@@ -226,8 +162,8 @@ class Main extends Component {
           <Header />
           <div className="content-container">
             <div className="main-left-child">
-              <div className="welcome">Welcome to the Bank Logins demo.</div>
-              <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link an account </Button>
+              <div className="welcome">Welcome to the EDD Chatbot demo.</div>
+              <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Upload Documents</Button>
               <AccountList load={load} />
             </div>
             <div className="main-right-child" style={{ float: 'right' }}>
