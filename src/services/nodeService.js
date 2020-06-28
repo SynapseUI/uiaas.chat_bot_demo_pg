@@ -6,7 +6,7 @@ const URL_USER = '/api/v3.1/users';
 // const userId = '5cdca3d814ddee0064a05b17';
 const oauthKey = localStorage.getItem('synapseOauth');
 const userId = localStorage.getItem('userId');
-const publicKey = 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
+const publicKey = 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4';
 const ipAddress = '172.69.22.117';
 
 // localStorage.setItem('userId', '5b5f95dcf122e319740dbc76');
@@ -32,7 +32,7 @@ export function createTestUser() {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-SP-GATEWAY': 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F',
+      'X-SP-GATEWAY': 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4',
       'X-SP-USER': '|badc522c6a325711f51841fc6f1e8bd0',
       'X-SP-USER-IP': `${ipAddress}`
     }
@@ -65,7 +65,7 @@ export function generateOauthKey(id, refreshToken) {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-SP-GATEWAY': 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F',
+      'X-SP-GATEWAY': 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4',
       'X-SP-USER': '|badc522c6a325711f51841fc6f1e8bd0',
       'X-SP-USER-IP': `${ipAddress}`
     }
@@ -81,7 +81,7 @@ export function generatePublicKey(id, refreshToken) {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-SP-GATEWAY': 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F'
+      'X-SP-GATEWAY': 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4'
     }
   };
   return axios.post('api/v3.1/client/controls', config);
