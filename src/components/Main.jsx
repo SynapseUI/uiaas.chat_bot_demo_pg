@@ -11,7 +11,8 @@ import { updateNewNodes, updateUserInfo, updateBanner } from '../actions/bankLog
 import { createTestUser, generateOauthKey, generatePublicKey, fetchNodes } from '../services/nodeService';
 import ToggleBanner from './Banner';
 
-const bank = 'https://synapse-chatbot-demo.s3.amazonaws.com/assets/bank.gif';
+// TODO: store this in correct bucket
+const bank = 'https://synapse-bl-business-demo.s3.amazonaws.com/assets/Business_BL.gif';
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -59,7 +60,7 @@ class Main extends Component {
 
   pushToIframe = () => {
     const { id, refreshToken } = this.state;
-    const updatePublicKey = () => 'public_key_qWCwNJcVPT2jMY105s7K6bUDm3gixoXkf94ZrR8F';
+    const updatePublicKey = () => 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4';
     // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
     // const updateUserId = () => '5cdca3d814ddee0064a05b17';
     const getFp = () => 'badc522c6a325711f51841fc6f1e8bd0';
@@ -226,7 +227,10 @@ class Main extends Component {
           <Header />
           <div className="content-container">
             <div className="main-left-child">
-              <div className="welcome">Welcome to the Bank Logins demo.</div>
+              <div className="welcome">
+                Welcome to the Bank Logins demo.
+                <span className="label"> Business Edition </span>
+              </div>
               <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link an account </Button>
               <AccountList load={load} />
             </div>
