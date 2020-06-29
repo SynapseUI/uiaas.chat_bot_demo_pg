@@ -54,16 +54,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
-  <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head>
+  <!-- <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head> -->
   <!-- <script src="https://synapse-bl-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script> -->
-  <script src="https://synapse-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script>
+  <script src="https://synapse-bank-login-qa.s3-us-west-1.amazonaws.com/iframe.js"></script>
 </head>
 
 <body class="light-mode">
   <script>
     function SynapseMain(config){
       Synapse.create({
-      defaultPath: 'BANK_LOGINS',
+      defaultPath: 'INTERCHANGE',
       generatePublicKey: config.updatePublicKey,
       generateFp: config.getFp,
       generateUserId: config.updateUserId,
