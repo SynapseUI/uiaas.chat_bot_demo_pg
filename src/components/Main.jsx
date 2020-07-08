@@ -4,12 +4,11 @@ import { connect } from 'react-redux';
 import Header from './Header';
 import { updateNewNodes, updateUserInfo, updateBanner } from '../actions/bankLoginActions';
 import { createTestUser, generateOauthKey, generatePublicKey, getUserInfo } from '../services/nodeService';
-import { userAction, agentAction } from '../constants/actionsList';
+import userAction from '../constants/actionsList';
 import displayErrorBanner from '../services/displayErrorBanner';
 import ToggleBanner from './Banner';
 
-const agentDemoGif = 'https://synapse-banking-qa.s3-us-west-1.amazonaws.com/Agent_Demo.gif';
-const userDemoGif = 'https://synapse-banking-qa.s3-us-west-1.amazonaws.com/End_user_demo.gif';
+const routerDemo = 'https://synapse-chatbot-router-demo.s3-us-west-1.amazonaws.com/assets/Router+Animation+V3.gif';
 class Main extends Component {
   constructor(props) {
     super(props);
@@ -85,7 +84,7 @@ class Main extends Component {
         this.setState({ load: false, isLoading: null });
         props.updateUserInfo('id', response.data._id);
         props.updateUserInfo('refreshToken', response.data.refresh_token);
-        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => this.updateUserInfo());
+        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(response.data.refresh_token); });
       })
       .catch((err) => {
         displayErrorBanner(err.response.data);
@@ -112,31 +111,17 @@ class Main extends Component {
         <div className="main-container">
           <Header />
           <div className="content-container">
-            <div className="welcome">Welcome to the Servicing Demo.</div>
+            <div className="welcome">Welcome to the Chatbot Router Demo.</div>
+            <h1 className="clickHeader">Click below for demo</h1>
             <div className="gifContainer">
               <div className="main-left-child" id="link-button-iframe">
                 <div>
-                  <img className="user-gif" src={userDemoGif} alt="gif" />
+                  <img className="user-gif" src={routerDemo} alt="gif" />
                 </div>
                 <div>
-                  <h1 className="userAgentHeader">End User</h1>
+                  {/* <h1 className="userAgentHeader">End User</h1> */}
                   <ul className="actionsList">
                     {userAction.map((action, idx) => <li className="action">{action}</li>)
-                    }
-                  </ul>
-                </div>
-              </div>
-              <div
-                className="main-right-child"
-                style={{ float: 'right' }}
-                onClick={() => window.open('https://uat-silent-wildflower-5960.synapsefi.com/v2/chatbot#/', '_newtab')}
-                onKeyPress={() => window.open('https://uat-silent-wildflower-5960.synapsefi.com/v2/chatbot#/', '_newtab')}
-              >
-                <div><img className="agent-gif" src={agentDemoGif} alt="gif" /></div>
-                <div>
-                  <h1 className="userAgentHeader">Agent</h1>
-                  <ul className="actionsList">
-                    {agentAction.map((action, idx) => <li className="action">{action}</li>)
                     }
                   </ul>
                 </div>

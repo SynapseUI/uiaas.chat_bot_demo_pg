@@ -156,7 +156,7 @@ export function getUserInfo(id, publicKeyNew, fp) {
   const config = {
     headers: {
       'Content-Type': 'application/json',
-      'X-SP-GATEWAY': publicKeyNew,
+      'X-SP-GATEWAY': `${publicKey}`,
       'X-SP-USER': `|${fp}`
     }
   };
