@@ -87,13 +87,17 @@ button
     padding: 0 20px
   .welcome
     font-family: Nunito Sans
-    font-size: 42px
+    font-size: 36px
+    text-align: center
+    line-height: 46px
     font-weight: bold
-    color: #333333
-    margin: 16.4% 0 5.7%
+    width: 100%
+    color: #000000
+    margin: 20px 0 54px 0
+    // margin: 16.4% 0 5.7%
     @media only screen and (max-width: 600px) 
       max-width: 328px
-      margin: 32px 0 30px 0
+      margin: 32px auto 30px auto
     @media only screen and (max-width: 1080px) 
       font-size: 32px
     @media only screen and (min-width: 1081px) 
@@ -105,53 +109,126 @@ button
       font-size: 23px
       line-height: 1.25
   .iframe-btn
-    font-family: Nunito Sans
-    width: 172px
-    height: 44px
-    border-radius: 4px
-    background-color: #000000
-    font-size: 16px
-    font-weight: normal
+    font-family: Inter
     font-style: normal
-    font-stretch: normal
-    line-height: 1
-    letter-spacing: normal
-    color: #f9f9f9
-    outline: none
-    padding: 12px 14px
-    outline: none
-    border: none
-    &:focus, &:hover
-      background-color: #333333 !important
-      color: white !important
-    @media only screen and (max-width: 600px) 
-      max-width: 160px
-      font-size: 16px
-      max-height: 46px
-      padding: 12px 14px
+    font-weight: normal
+    font-size: 9px
+    line-height: 12px
+    text-align: center
+    color: #FFFFFF
+    border-radius: 50%
+    width: 52px
+    height: 52px
+    background: #333333
+    padding: 0
+    display: none
+    position: absolute
+    top: 66%
+    left: 38%
+    // &:focus, &:hover
+    //   background-color: #000000 !important
+    //   color: white !important
+    // @media only screen and (max-width: 600px) 
+    //   max-width: 150px
+    //   font-size: 16px
+    //   max-height: 46px
+    //   padding: 13px 20px 9px
 
 .content-container
   display: flex
-  flex-direction: row
+  flex-direction: column
   justify-content: space-between
-.bank-gif  
-  width: 491px
-  margin-top: 20%
-  @media only screen and (max-width: 1080px)
-    width: 300px
-  @media only screen and (max-width: 900px) 
-    display: none
-  @media only screen and (min-width: 1681px) 
-    width: 550px
+
+.gifContainer
+  width: 700px
+  margin: 0 auto
+  @media only screen and (max-width: 600px) 
+    max-width: 100%
+
+
+.user-gif
+  width: 130px
+  height: 212px
+  margin: 30px 71px
+
+.userAgentHeader
+  font-family: Nunito Sans
+  font-style: normal
+  font-weight: bold
+  font-size: 22px
+  line-height: 46px
+  padding-left: 28px
+  margin: 0 
+
+.actionsList
+  list-style: none
+  margin: 0
+
+.actionsList li::before 
+  content: "\25A0"
+  color: #D9D9D9
+  // font-weight: bold;
+  display: inline-block 
+  width: 10px
+  margin-left: -1em
+  @media only screen and (max-width: 600px) 
+    width: 18px
+
+.action
+  font-family: Nunito Sans
+  font-style: normal
+  font-weight: normal
+  font-size: 14px
+  line-height: 19px
+  color: #333333
+
+
+.agent-gif
+  width: 339px
+  height: 212px
+  margin: 30px 29px
 
 .main-left-child
   display: inline-block
+  width: 272px
+  height: 438px
+  box-shadow: 0px 1px 6px rgba(166, 166, 166, 0.4)
+  border-radius: 10px
+  cursor:url(https://synapse-banking-qa.s3-us-west-1.amazonaws.com/Click_for_demo_1x.png) 10 3, auto
+  &:hover
+    border: 1px solid #333333
+  @media only screen and (max-width: 600px) 
+    display: block
+    margin: 0 auto
   @media only screen and (min-width: 900px) 
     max-width: 503px
   @media only screen and (min-width: 1080px) 
     max-width: 740px
 
+.main-left-child:hover .actionsList li::before
+  color: #C1E8ED
+
+.main-left-child:hover .iframe-btn
+  display: inline
+
+.main-right-child:hover .actionsList li::before
+  color: #C1E8ED
+
+
+.main-right-child
+  width: 396px
+  height: 438px
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.25)
+  border-radius: 10px
+  cursor:url(https://synapse-banking-qa.s3-us-west-1.amazonaws.com/Click_for_demo_1x.png) 10 3, auto
+
+  &:hover
+    border: 1px solid #333333
+  @media only screen and (max-width: 600px) 
+      display: none
+
 //change the banner default style
+
 
 .wQLbu, .WHVkc
   max-height: 43px !important

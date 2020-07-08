@@ -1,29 +1,26 @@
 import React, { Component, Fragment } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
 import { connect } from 'react-redux';
-import { Button } from 'semantic-ui-react';
 
 import Header from './Header';
-import CardsList from './CardsList';
-import Logo from '../svg/Logo';
 import { updateNewNodes, updateUserInfo, updateBanner } from '../actions/bankLoginActions';
-import { createTestUser, generateOauthKey, generatePublicKey, fetchNodes, addBaseDoc, getUserInfo } from '../services/nodeService';
+import { createTestUser, generateOauthKey, generatePublicKey, getUserInfo } from '../services/nodeService';
+import { userAction, agentAction } from '../constants/actionsList';
+import displayErrorBanner from '../services/displayErrorBanner';
 import ToggleBanner from './Banner';
-import displayErrorBanner from '../services/errorHandling';
 
-const cardAnimation = 'https://synapse-chatbot-interchange-demo.s3-us-west-1.amazonaws.com/assets/interchange_animation.gif';
+const agentDemoGif = 'https://synapse-banking-qa.s3-us-west-1.amazonaws.com/Agent_Demo.gif';
+const userDemoGif = 'https://synapse-banking-qa.s3-us-west-1.amazonaws.com/End_user_demo.gif';
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       load: true,
       isLoading: 'loading',
+      id: '5e3c756e3c4e28008d53f68e',
+      fp: 'badc522c6a325711f51841fc6f1e8bd0',
+      publicKey: 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4'
     };
     const receiveMessage = (e) => {
-      if (e.data.synapse_chatbot_message.type === 'exit') {
-        this.newFunction();
-      }
     };
     window.addEventListener('message', receiveMessage, false);
   }
@@ -57,80 +54,52 @@ class Main extends Component {
   }
 
 
-  pushToIframe = () => {
-    const { id, refreshToken } = this.state;
-    const updatePublicKey = () => 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4';
-    const getFp = () => 'badc522c6a325711f51841fc6f1e8bd0';
-
+  pushToIframe = (refreshTocken) => {
+    const { id, refreshToken, fp, publicKey } = this.state;
+    // const updatePublicKey = async () => {
+    //   const publicKey = await this.getPublicKey();
+    //   return publicKey;
+    // };
+    const updatePublicKey = () => publicKey;
     const updateUserId = () => id;
-    window.SynapseMain({ updatePublicKey, getFp, updateUserId });
+    const updateFingerprint = () => fp;
+
+    window.SynapseMain({ updatePublicKey, updateFingerprint, updateUserId });
+  }
+
+  updateUserInfo = (userId) => {
+    const { publicKey, fp, id } = this.state;
+    return getUserInfo(id, publicKey, fp)
+      .then((response) => {
+        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(response.data.refresh_token); });
+      });
   }
 
   createNewUser = (type) => {
     const { props } = this;
     createTestUser()
       .then((response) => {
-        // this.generateOauthKey();
         if (type === 'id') {
           return response.data._id;
         }
         this.setState({ load: false, isLoading: null });
         props.updateUserInfo('id', response.data._id);
         props.updateUserInfo('refreshToken', response.data.refresh_token);
-        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(); this.generateOuth(); });
+        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => this.updateUserInfo());
       })
       .catch((err) => {
         displayErrorBanner(err.response.data);
       });
   }
 
-  userInfo = () => {
+  getPublicKey = () => {
     const { props } = this;
-    const { id } = this.state;
-    getUserInfo(id)
+    const { id, publicKey } = this.state;
+    return generatePublicKey(id)
       .then((response) => {
-        props.updateUserInfo('id', response.data._id);
-        this.setState({ load: false, isLoading: null });
-
-        props.updateUserInfo('refreshToken', response.data.refresh_token);
-        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(); this.generateOuth(); });
-      })
-      .catch((err) => {
-        displayErrorBanner(err.response.data);
-      });
-  }
-
-  generateOuth = () => {
-    const { props } = this;
-    const { id, refreshToken } = this.state;
-    return generateOauthKey(id, refreshToken)
-      .then((responseSecond) => {
-        localStorage.setItem('userId', responseSecond.data.user_id);
-        localStorage.setItem('synapseOauth', responseSecond.data.oauth_key);
-        props.updateUserInfo('oauth_key', responseSecond.data.oauth_key);
-        this.setState({ load: false, isLoading: null });
-        this.getNodes(responseSecond.data.user_id, responseSecond.data.oauth_key);
-        return responseSecond.data.oauth_key;
-      })
-      .catch((err) => {
-        displayErrorBanner(err.response.data);
-      });
-  }
-
-  newFunction = () => {
-    const { props } = this;
-    this.getNodes(props.id, props.oauth_key);
-  }
-
-  getNodes = (id, oauth) => {
-    const { props } = this;
-    fetchNodes('INTERCHANGE-US', id, oauth)
-      .then((response) => {
-        // sets all nodes in redux
-        props.updateNewNodes(response.data.nodes);
-      })
-      .catch((err) => {
-        displayErrorBanner(err.response.data);
+        const key = response.data.public_key_obj.public_key;
+        this.setState({ publicKey: key });
+        return key;
       });
   }
 
@@ -143,14 +112,37 @@ class Main extends Component {
         <div className="main-container">
           <Header />
           <div className="content-container">
-            <div className="main-left-child">
-              <div className="welcome">Welcome to the Interchnage demo.</div>
-              <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link/Unlink Cards </Button>
-              <CardsList load={load} />
+            <div className="welcome">Welcome to the Servicing Demo.</div>
+            <div className="gifContainer">
+              <div className="main-left-child" id="link-button-iframe">
+                <div>
+                  <img className="user-gif" src={userDemoGif} alt="gif" />
+                </div>
+                <div>
+                  <h1 className="userAgentHeader">End User</h1>
+                  <ul className="actionsList">
+                    {userAction.map((action, idx) => <li className="action">{action}</li>)
+                    }
+                  </ul>
+                </div>
+              </div>
+              <div
+                className="main-right-child"
+                style={{ float: 'right' }}
+                onClick={() => window.open('https://uat-silent-wildflower-5960.synapsefi.com/v2/chatbot#/', '_newtab')}
+                onKeyPress={() => window.open('https://uat-silent-wildflower-5960.synapsefi.com/v2/chatbot#/', '_newtab')}
+              >
+                <div><img className="agent-gif" src={agentDemoGif} alt="gif" /></div>
+                <div>
+                  <h1 className="userAgentHeader">Agent</h1>
+                  <ul className="actionsList">
+                    {agentAction.map((action, idx) => <li className="action">{action}</li>)
+                    }
+                  </ul>
+                </div>
+              </div>
             </div>
-            <div className="main-right-child" style={{ float: 'right' }}>
-              <div><img className="bank-gif" src={cardAnimation} alt="gif" /></div>
-            </div>
+
           </div>
         </div>
       </Fragment>
