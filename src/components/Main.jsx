@@ -17,12 +17,8 @@ class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      load: false,
-      isLoading: null,
-      // id: '5ef93c213ab1440077873ecb',
-      // refreshToken: 'refresh_CldvsJt8BIFYQ5R2kVc6awP4guDjx3mA10qyWUTi',
-      // oauthKey: 'oauth_xgujUqMkTA0t0dePwlm1pJGZhIBaX4SRzsV5CiHr',
-      id: '5ef944384c8d060056661f10',
+      load: true,
+      isLoading: 'loading',
     };
     const receiveMessage = (e) => {
       if (e.data.synapse_chatbot_message.type === 'exit') {
@@ -36,14 +32,8 @@ class Main extends Component {
   componentDidMount = () => {
     const { id, oauthKey } = this.state;
     localStorage.clear();
-    // this.createNewUser();
+    this.createNewUser();
     this.internetCheck();
-    // this.userInfo();
-    // this.pushToIframe();
-    // addBaseDoc(id, oauthKey);
-    // this.getNodes();
-    // this.generateOuth();
-    this.getNodes(id, oauthKey);
   }
 
   internetCheck = () => {
@@ -70,17 +60,9 @@ class Main extends Component {
   pushToIframe = () => {
     const { id, refreshToken } = this.state;
     const updatePublicKey = () => 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4';
-    // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
-    // const updateUserId = () => '5cdca3d814ddee0064a05b17';
     const getFp = () => 'badc522c6a325711f51841fc6f1e8bd0';
-    // this.generateOuth();
-    // const updateUserId = () => '5ef93c213ab1440077873ecb';
 
     const updateUserId = () => id;
-    // const updateOauthKey = async () => {
-    //   const oauth = await this.generateOuth();
-    //   return oauth;
-    // };
     window.SynapseMain({ updatePublicKey, getFp, updateUserId });
   }
 
@@ -92,9 +74,10 @@ class Main extends Component {
         if (type === 'id') {
           return response.data._id;
         }
+        this.setState({ load: false, isLoading: null });
         props.updateUserInfo('id', response.data._id);
         props.updateUserInfo('refreshToken', response.data.refresh_token);
-        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => this.pushToIframe());
+        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(); this.generateOuth(); });
       })
       .catch((err) => {
         displayErrorBanner(err.response.data);
@@ -107,6 +90,8 @@ class Main extends Component {
     getUserInfo(id)
       .then((response) => {
         props.updateUserInfo('id', response.data._id);
+        this.setState({ load: false, isLoading: null });
+
         props.updateUserInfo('refreshToken', response.data.refresh_token);
         this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(); this.generateOuth(); });
       })
@@ -146,37 +131,6 @@ class Main extends Component {
       })
       .catch((err) => {
         displayErrorBanner(err.response.data);
-        // switch (err.response.data.http_code) {
-        //   case '500':
-        //     props.updateBanner({
-        //       isOpen: true,
-        //       content: 'The server is down, please try again later.',
-        //     });
-        //     break;
-        //   case '429':
-        //     props.updateBanner({
-        //       isOpen: true,
-        //       content: 'The server is busy, please try again later.',
-        //     });
-        //     break;
-        //   case '503':
-        //     props.updateBanner({
-        //       isOpen: true,
-        //       content: 'The server is busy, please try again later.',
-        //     });
-        //     break;
-        //   case '504':
-        //     props.updateBanner({
-        //       isOpen: true,
-        //       content: 'The server is busy, please try again later.',
-        //     });
-        //     break;
-        //   default:
-        //     props.updateBanner({
-        //       isOpen: true,
-        //       content: 'The server is busy, please try again later.',
-        //     });
-        // }
       });
   }
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-// import SendBtn from '../../../styled_components/svg/SendBtn';
-// import utils from '../../utils/utils';
 
 export const DiscoverSVG = () => (
   <svg width="187" height="32" viewBox="0 0 187 32" fill="none" xmlns="http://www.w3.org/2000/svg">
