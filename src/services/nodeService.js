@@ -134,6 +134,39 @@ export function createTestUser() {
     ips: [
       '127.0.0.1'
     ],
+    documents: [
+      {
+        email: 'test@synapsefi.com',
+        phone_number: '415.235.6723',
+        ip: '127.0.0.1',
+        name: generateName(),
+        alias: '',
+        entity_type: 'NOT_KNOWN',
+        entity_scope: 'Not Known',
+        day: 5,
+        month: 1,
+        year: 1989,
+        address_street: '1 Market St',
+        address_city: 'San Francisco',
+        address_subdivision: 'CA',
+        address_postal_code: '94105',
+        address_country_code: 'US',
+        virtual_docs: [
+          {
+            document_value: '2222',
+            document_type: 'SSN'
+          }
+        ],
+        physical_docs: [
+          {
+            document_value: 'data:image/gif;base64,SUQs==',
+            document_type: 'GOVT_ID'
+          }
+        ],
+        social_docs: [],
+        docs_key: 'PARENT_DOCS'
+      }
+    ],
     extra: {
       is_business: false,
       cip_tag: 1
