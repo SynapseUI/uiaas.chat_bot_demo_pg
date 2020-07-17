@@ -144,7 +144,7 @@ class Main extends Component {
           <Header />
           <div className="content-container">
             <div className="main-left-child">
-              <div className="welcome">Welcome to the Interchnage demo.</div>
+              <div className="welcome">Welcome to the Interchange demo.</div>
               <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link/Unlink Cards </Button>
               <CardsList load={load} />
             </div>
