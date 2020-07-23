@@ -55,10 +55,6 @@ class Main extends Component {
 
   pushToIframe = (refreshTocken) => {
     const { id, refreshToken, fp, publicKey } = this.state;
-    // const updatePublicKey = async () => {
-    //   const publicKey = await this.getPublicKey();
-    //   return publicKey;
-    // };
     const updatePublicKey = () => publicKey;
     const updateUserId = () => id;
     const updateFingerprint = () => fp;
@@ -119,7 +115,6 @@ class Main extends Component {
                   <img className="user-gif" src={routerDemo} alt="gif" />
                 </div>
                 <div>
-                  {/* <h1 className="userAgentHeader">End User</h1> */}
                   <ul className="actionsList">
                     {userAction.map((action, idx) => <li className="action">{action}</li>)
                     }
