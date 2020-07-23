@@ -88,22 +88,27 @@ button
   .welcome
     font-family: Nunito Sans
     font-size: 42px
+    line-height: 40px
     font-weight: bold
     color: #333333
-    margin: 16.4% 0 5.7%
+    margin: 22% 0 5.7%
     @media only screen and (max-width: 600px) 
-      max-width: 328px
       margin: 32px 0 30px 0
     @media only screen and (max-width: 1080px) 
       font-size: 32px
+      margin-top: 15px
     @media only screen and (min-width: 1081px) 
-      font-size: 38px
+      font-size: 40px
+      line-height: 40px
     @media only screen and (max-width: 414px) 
       font-size: 28px
       line-height: 1.29
+      margin: 32px 0 30px 0
     @media only screen and (max-width: 320px) 
       font-size: 23px
       line-height: 1.25
+      margin: 32px 0 30px 0
+
   .iframe-btn
     font-family: Nunito Sans
     width: 172px
@@ -134,22 +139,37 @@ button
   display: flex
   flex-direction: row
   justify-content: space-between
-.bank-gif  
-  width: 491px
-  margin-top: 20%
-  @media only screen and (max-width: 1080px)
-    width: 300px
   @media only screen and (max-width: 900px) 
+    flex-direction: column-reverse
+.bank-gif  
+  width: 650px
+  margin-top: 10%
+  display: block
+  @media only screen and (max-width: 1080px)
+    width: 530px
+  @media only screen and (max-width: 900px) 
+    width: 380px
+    margin: 0 auto
+    display: block
+  @media only screen and (max-width: 520px) 
     display: none
   @media only screen and (min-width: 1681px) 
     width: 550px
+
+.main-right-child
+  display: inline-block
+  width: 680px
+  // @media only screen and (min-width: 900px) 
+    // max-width: 503px
+  // @media only screen and (min-width: 1080px) 
+   
 
 .main-left-child
   display: inline-block
   @media only screen and (min-width: 900px) 
     max-width: 503px
   @media only screen and (min-width: 1080px) 
-    max-width: 740px
+    // max-width: 740px
 
 //change the banner default style
 
@@ -178,3 +198,21 @@ button
   color: #f9f9f9
   cursor: pointer
   text-decoration: underline
+
+.actionsList
+  list-style: none
+  margin: 42px 0
+  padding: 0px
+  li
+    font-size: 16px
+    line-height: 22px
+
+.actionsList li::before 
+  content: "\25A0"
+  color: #D9D9D9
+  // font-weight: bold;
+  display: inline-block 
+  width: 18px
+  // margin-left: -1em
+  @media only screen and (max-width: 600px) 
+    width: 18px
