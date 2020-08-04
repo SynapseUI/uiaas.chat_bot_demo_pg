@@ -101,7 +101,7 @@ class Main extends Component {
           <Header />
           <div className="content-container">
             <div className="main-left-child">
-              <div className="welcome">Welcome to the Card Manager demo.</div>
+              <div className="welcome">Welcome to the Card Management demo.</div>
               <div>
                 <ul className="actionsList">
                   {userAction.map((action, idx) => <li className="action">{action}</li>)
