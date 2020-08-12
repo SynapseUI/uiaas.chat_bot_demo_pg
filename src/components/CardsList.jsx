@@ -6,6 +6,7 @@ import fetchNodes from '../services/nodeService';
 import updateNewNodes from '../actions/bankLoginActions';
 import utils from '../services/utils';
 import Circle from '../svg/Circle';
+import { VisaSVG, MastercardSVG, DiscoverSVG, AmericanExpSVG, DefaultCardSVG } from '../svg/CardLogos';
 
 let show = true;
 const logo = 'https://synapse-chatbot-demo.s3.amazonaws.com/assets/bank-icon.png';
@@ -17,7 +18,7 @@ function addDefaultSrc(ev) {
   ev.target.style.width = '33.3px';
   ev.target.style.marginRight = '12px';
 }
-class AccountList extends Component {
+class CardsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,15 +33,30 @@ class AccountList extends Component {
     this.setState({ loading: false });
   }
 
+  selectCardLogo = (network) => {
+    switch (network) {
+      case ('VISA'):
+        return <VisaSVG />;
+      case ('DISCOVER'):
+        return <DiscoverSVG />;
+      case ('AMERICAN'):
+        return <AmericanExpSVG />;
+      case ('MASTERCARD'):
+        return <MastercardSVG />;
+      default:
+        return <DefaultCardSVG />;
+    }
+  }
+
   render() {
     const { loading } = this.state;
     const { nodeLinked } = this.props;
     const nodes = (nodeLinked).slice(0, 3);
     return (
       <div className="account-list-container">
-        <div className="title">Linked accounts</div>
+        <div className="title">Linked cards</div>
         {loading
-          ? <div className="loading">Loading accounts...</div>
+          ? <div className="loading">Loading cards...</div>
           : (
             <div>
               <div className="list" style={{ borderLeft: 'solid 6px #000000' }}>
@@ -50,8 +66,8 @@ class AccountList extends Component {
                       <div className="list-item" style={{ borderBottom: '1px solid rgb(134, 134, 134)', paddingbottom: '18px' }}>
                         <Circle />
                         <div className="list-right">
-                          <span className="list-info" id="list-info">No linked accounts</span>
-                          <div className="list-content" id="list-content"><Linked /><span className="list-date">Click on Link an account </span></div>
+                          <span className="list-info" id="list-info">No linked cards</span>
+                          <div className="list-content" id="list-content"><Linked /><span className="list-date">Click on Link/Unlink Cards </span></div>
                         </div>
                       </div>
                     </div>
@@ -60,17 +76,20 @@ class AccountList extends Component {
                     <div>
                       {nodes.map((node, idx) => {
                         // const name = item.bank_name;
-                        const listText = utils.capitalizeOnlyFirstChar(`${node.info.account_num} - ${node.info.class} - ${node.info.bank_name}`);
+                        const listText = utils.capitalizeOnlyFirstChar(`${node.info.nickname} - ${node.info.network}`);
                         let border = '';
-                        let padding = '';
+                        const padding = '';
                         if (idx !== 0) {
                           border = 'solid 1px #868686';
-                          padding = '18px';
+                          // padding = '18px';
                         }
 
                         return (
                           <div className="list-item" key={node.bank_name} style={{ borderTop: border, paddingTop: padding }}>
-                            <div className="list-left"><img className="list-logo" onError={addDefaultSrc} src={node.info.bank_logo} alt="logo" /></div>
+                            <div className="list-left list-logo">
+                              {/* <img className="list-logo" src={this.selectCardLogo(node.info.network)} alt="logo" /> */}
+                              {this.selectCardLogo(node.info.network)}
+                            </div>
                             <div className="list-right">
                               <div className="list-info">{listText} </div>
                               <div className="list-content"><Linked /><span className="list-date">Linked {moment(node.timeline[0].date).format('MM/DD/YYYY')}</span></div>
@@ -96,4 +115,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, { updateNewNodes })(AccountList);
+export default connect(mapStateToProps, { updateNewNodes })(CardsList);

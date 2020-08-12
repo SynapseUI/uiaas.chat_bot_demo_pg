@@ -5,19 +5,20 @@ import { connect } from 'react-redux';
 import { Button } from 'semantic-ui-react';
 
 import Header from './Header';
-import AccountList from './AccountList';
+import CardsList from './CardsList';
 import Logo from '../svg/Logo';
 import { updateNewNodes, updateUserInfo, updateBanner } from '../actions/bankLoginActions';
-import { createTestUser, generateOauthKey, generatePublicKey, fetchNodes } from '../services/nodeService';
+import { createTestUser, generateOauthKey, generatePublicKey, fetchNodes, addBaseDoc, getUserInfo } from '../services/nodeService';
 import ToggleBanner from './Banner';
+import displayErrorBanner from '../services/errorHandling';
 
-const bank = 'https://synapse-chatbot-demo.s3.amazonaws.com/assets/bank.gif';
+const cardAnimation = 'https://synapse-chatbot-interchange-demo.s3-us-west-1.amazonaws.com/assets/interchange_animation.gif';
 class Main extends Component {
   constructor(props) {
     super(props);
     this.state = {
       load: true,
-      isLoading: 'loading'
+      isLoading: 'loading',
     };
     const receiveMessage = (e) => {
       if (e.data.synapse_chatbot_message.type === 'exit') {
@@ -29,11 +30,10 @@ class Main extends Component {
 
 
   componentDidMount = () => {
+    const { id, oauthKey } = this.state;
     localStorage.clear();
     this.createNewUser();
     this.internetCheck();
-    // this.pushToIframe();
-    // // this.getNodes();
   }
 
   internetCheck = () => {
@@ -60,15 +60,9 @@ class Main extends Component {
   pushToIframe = () => {
     const { id, refreshToken } = this.state;
     const updatePublicKey = () => 'public_key_ba9geYIouUvhLOlqiK03QmwpZ20fEJVWDXM76GT4';
-    // const updateOauthKey = () => 'oauth_snMDtxJzhaLR13BIEAFNSiqjdXkYZ0uvowpyrKC4';
-    // const updateUserId = () => '5cdca3d814ddee0064a05b17';
     const getFp = () => 'badc522c6a325711f51841fc6f1e8bd0';
-    this.generateOuth();
+
     const updateUserId = () => id;
-    // const updateOauthKey = async () => {
-    //   const oauth = await this.generateOuth();
-    //   return oauth;
-    // };
     window.SynapseMain({ updatePublicKey, getFp, updateUserId });
   }
 
@@ -80,46 +74,30 @@ class Main extends Component {
         if (type === 'id') {
           return response.data._id;
         }
+        this.setState({ load: false, isLoading: null });
         props.updateUserInfo('id', response.data._id);
         props.updateUserInfo('refreshToken', response.data.refresh_token);
-        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => this.pushToIframe());
+        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(); this.generateOuth(); });
       })
       .catch((err) => {
-        switch (err.response.data.http_code) {
-          case '500':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is down, please try again later.'
-            });
-            break;
-          case '429':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          case '503':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          case '504':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          default:
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-        }
+        displayErrorBanner(err.response.data);
       });
-    // this.setState({ id: '5d116600f12ce3006db1fc26', refreshToken: 'refresh_hWAXl0wsvJmBbe0QVN3E6yLKG7uD9UOIM4cZHxog' }, () => this.pushToIframe());
-    // props.updateUserInfo('id', '5d116600f12ce3006db1fc26');
-    // props.updateUserInfo('refreshToken', 'refresh_hWAXl0wsvJmBbe0QVN3E6yLKG7uD9UOIM4cZHxog');
+  }
+
+  userInfo = () => {
+    const { props } = this;
+    const { id } = this.state;
+    getUserInfo(id)
+      .then((response) => {
+        props.updateUserInfo('id', response.data._id);
+        this.setState({ load: false, isLoading: null });
+
+        props.updateUserInfo('refreshToken', response.data.refresh_token);
+        this.setState({ id: response.data._id, refreshToken: response.data.refresh_token }, () => { this.pushToIframe(); this.generateOuth(); });
+      })
+      .catch((err) => {
+        displayErrorBanner(err.response.data);
+      });
   }
 
   generateOuth = () => {
@@ -135,37 +113,7 @@ class Main extends Component {
         return responseSecond.data.oauth_key;
       })
       .catch((err) => {
-        switch (err.response.data.http_code) {
-          case '500':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is down, please try again later.'
-            });
-            break;
-          case '429':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          case '503':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          case '504':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-            break;
-          default:
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.'
-            });
-        }
+        displayErrorBanner(err.response.data);
       });
   }
 
@@ -176,43 +124,13 @@ class Main extends Component {
 
   getNodes = (id, oauth) => {
     const { props } = this;
-    fetchNodes('ACH-US', id, oauth)
+    fetchNodes('INTERCHANGE-US', id, oauth)
       .then((response) => {
         // sets all nodes in redux
         props.updateNewNodes(response.data.nodes);
       })
       .catch((err) => {
-        switch (err.response.data.http_code) {
-          case '500':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is down, please try again later.',
-            });
-            break;
-          case '429':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-            break;
-          case '503':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-            break;
-          case '504':
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-            break;
-          default:
-            props.updateBanner({
-              isOpen: true,
-              content: 'The server is busy, please try again later.',
-            });
-        }
+        displayErrorBanner(err.response.data);
       });
   }
 
@@ -226,12 +144,12 @@ class Main extends Component {
           <Header />
           <div className="content-container">
             <div className="main-left-child">
-              <div className="welcome">Welcome to the Bank Logins demo.</div>
-              <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link an account </Button>
-              <AccountList load={load} />
+              <div className="welcome">Welcome to the Interchange demo.</div>
+              <Button id="link-button-iframe" className={`iframe-btn ${isLoading}`} type="button">Link/Unlink Cards </Button>
+              <CardsList load={load} />
             </div>
             <div className="main-right-child" style={{ float: 'right' }}>
-              <div><img className="bank-gif" src={bank} alt="gif" /></div>
+              <div><img className="bank-gif" src={cardAnimation} alt="gif" /></div>
             </div>
           </div>
         </div>
