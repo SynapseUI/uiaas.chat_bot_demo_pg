@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style id="static-style" title='dynamic'></style>
-  <title>SynapseFI BL Demo</title>
+  <title>SynapseFI Servicing Demo</title>
   <link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico' />
   <link type='image/x-icon' rel="apple-touch-icon" sizes="57x57"
     href="https://cdn.synapsepay.com/services/v2_dashboard/favicon.ico/apple-icon-57x57.png">
@@ -54,29 +54,34 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.1/foundation.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.min.js"></script>
-  <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head>
+  <!-- <link href="https://synapse-chatbot-demo.s3.amazonaws.com/css/0.css" rel="stylesheet"></head> -->
   <!-- <script src="https://synapse-bl-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script> -->
-  <script src="https://synapse-chatbot.s3-us-west-1.amazonaws.com/js/iframe.js"></script>
+  <script src="https://synapse-banking-qa.s3-us-west-1.amazonaws.com/iframe.js"></script>
+  <!-- <script src="https://synapse-cb-servicing.s3-us-west-1.amazonaws.com/iframe.js"></script> -->
 </head>
 
 <body class="light-mode">
-  <script>
-    function SynapseMain(config){
+
+  <script>    
+    function SynapseMain(config) {
       Synapse.create({
-      defaultPath: 'BANK_LOGINS',
+      defaultPath: 'ROUTER',
       generatePublicKey: config.updatePublicKey,
-      generateFp: config.getFp,
+      generateFp: config.updateFingerprint,
       generateUserId: config.updateUserId,
-      env: 'sandbox'
-    });
-    $('#link-button-iframe').on('click', function(e) {
-    Synapse.open();
-  });
+      env: 'UAT',
+      // openWay: 'AUTO',
+      onError:function(data){},
+      onExit: function(mess) {console.log("onExit". mess)}
+      });
+      $('#link-button-iframe').on('click', function (e) {
+      Synapse.open();
+      });
     }
   </script>
-  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/runtime.js"></script>
+  <!-- <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/runtime.js"></script>
   <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/vendors.js"></script>
-  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/main.js"></script>
+  <script type="text/javascript" src="https://synapse-chatbot-demo.s3.amazonaws.com/js/main.js"></script> -->
   <div id="app"></div>
 </body>
 
